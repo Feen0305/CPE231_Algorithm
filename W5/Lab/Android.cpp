@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
@@ -34,7 +33,7 @@ int main(){
     // }
 
     string target;
-    vector<int> Answer(Mquest);
+    int Answer[Mquest];
     for(int i = 0; i < Mquest; i++){
         cin >> target;
         Answer[i] = findTargetRound(target , pattern);
