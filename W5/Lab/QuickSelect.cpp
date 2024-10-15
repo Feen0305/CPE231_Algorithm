@@ -4,8 +4,8 @@
 
 using namespace std;
 
-int QuickSelect(int arr[], int size, int key);
 int partition(int arr[], int l, int r);
+int QuickSelect(int arr[], int l, int r, int key);
 void swap(int* a, int* b);
 
 int main() {
@@ -20,37 +20,36 @@ int main() {
     int key;
     cin >> key;
 
-    int keyValue = QuickSelect(arr, size, key);
+    int L = 0, R = size - 1;
+    int keyValue = QuickSelect(arr, L, R, key);
     cout << keyValue ;
 
     return 0;
 }
 
-int QuickSelect(int arr[], int sizeOFarray, int key){
+int QuickSelect(int arr[], int l, int r, int key){
+    int pivot = partition(arr, l, r);
+    // debug each partition
+    // for(int i = l; i <= r; i++){
+    //         cout << arr[i] << " ";
+    // }
+    // cout << "\n";
 
-    int L = 0, R = sizeOFarray - 1;
-    while( L <= R ){
-        int pivot = partition(arr, L, R);
-        if(pivot == key - 1){ return arr[pivot]; }
-        if(pivot < key - 1){ L = pivot + 1; }
-        else{ R = pivot - 1; }
-    }
+    if(pivot == key - 1){ return arr[pivot]; }
+    else if(pivot > key - 1){ return QuickSelect(arr, l, pivot - 1, key); }
+    else{ return QuickSelect(arr, pivot + 1, r, key); }
 
-    return -1;
 }
 
 int partition(int arr[], int l, int r){
-    if(l >= r){ return l; }
-    for(int i = l; i < r; i++){
-        if(arr[i] < arr[r]){ swap(arr[i], arr[l++]); }
+    int pivot = arr[l];
+    int s = l;
+
+    for(int i = l+1;  i <= r; i++){
+        if(arr[i] < pivot){
+            swap(arr[++s] , arr[i]);
+        }
     }
-
-    swap(arr[l], arr[r]);
-    return l;
-}
-
-void swap(int* a, int* b){
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+    swap(arr[l] , arr[s]);
+    return s;
 }
